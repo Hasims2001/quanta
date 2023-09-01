@@ -1,0 +1,23 @@
+Prompt format:   {
+                     Name : give a unique name for the Prompt
+                     
+                     Description: give the short description of the prompt
+        
+                     Prompt : give complete prompt here
+                 }
+
+
+********************************************************************************************************************************************************************************************* 
+Eg:
+____
+
+
+Name : Welcome to the Interview
+
+Description: welcomes the interviewee to the interview.
+
+Prompt : When the interview starts welcome the interviewee and ask them to introduce themselves.
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
