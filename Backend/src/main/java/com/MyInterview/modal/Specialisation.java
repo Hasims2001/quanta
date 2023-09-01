@@ -2,6 +2,7 @@ package com.MyInterview.modal;
 
 import java.util.List;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,6 +22,8 @@ public class Specialisation {
 	@OneToMany
 	@JoinColumn(name = "attemptId")
 	private List<Attempt> attempts;
+	@Embedded
+	private Prompt prompt;
 	public Specialisation(String techName, List<Attempt> attempts) {
 		super();
 		this.techName = techName;
