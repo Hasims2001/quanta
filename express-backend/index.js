@@ -5,7 +5,7 @@ const app = express();
 const cors = require("cors");
 const session = require("express-session");
 const bodyParser = require("body-parser");
-import {AbortController} from "node-abort-controller";
+const {AbortController} =  require("node-abort-controller");
 
 global.AbortController = AbortController;
 app.use(express.json());
