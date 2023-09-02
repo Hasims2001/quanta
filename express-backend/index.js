@@ -1,5 +1,6 @@
 const express = require("express");
 require("dotenv").config();
+const { AbortController } = require('abort-controller');
 const OpenAI = require("openai");
 const app = express();
 const cors = require("cors");
