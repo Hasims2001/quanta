@@ -1,11 +1,13 @@
 const express = require("express");
 require("dotenv").config();
-const { AbortController } = require('abort-controller');
 const OpenAI = require("openai");
 const app = express();
 const cors = require("cors");
 const session = require("express-session");
 const bodyParser = require("body-parser");
+import {AbortController} from "node-abort-controller";
+
+global.AbortController = AbortController;
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
