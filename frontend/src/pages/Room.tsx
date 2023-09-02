@@ -2,10 +2,9 @@ import  { useEffect, useMemo, useRef, useState } from 'react';
 import ReactPlayer from 'react-player';
 import avatarvideo from "../../src/assets/avatarvideo.mp4";
 import avatarhold from '../../src/assets/avatarhold.mp4';
-import avatarimg from '../../src/assets/avatarimage.jpg';
-import Speech from 'react-text-to-speech';
-import { sendAnswer, startInterview } from '../Api';
-export const Room = () => {
+
+import { getFeedback, getQuestion, sendAnswer, startInterview } from '../Api';
+export const Room = ({type}: any) => {
   const [text, setText] = useState<string>("");
   const [turn, setTurn] = useState<Boolean>(true);
   const [videoStream, setVideoStream] = useState<MediaStream | null>(null);
@@ -27,7 +26,8 @@ export const Room = () => {
   useEffect(()=>{
     let question: string = "";
    const getQuestion= async()=>{
-    question = await startInterview();
+    question = await startInterview(type);
+    console.log(question);
     setQues(question);
    }
    getQuestion();
@@ -44,9 +44,9 @@ const handleVideo =()=>{
       let utterance = new SpeechSynthesisUtterance(ques);
       speechSynthesis.speak(utterance);
       
-      setTimeout(()=>{
-        handleVideo();
-      }, 2000);
+      // setTimeout(()=>{
+      //   handleVideo();
+      // }, 3000);
       
       
      }else{
@@ -54,6 +54,11 @@ const handleVideo =()=>{
      }
   }, [ques]);
 
+  useEffect(()=>{
+      if(speechSynthesis.speaking === false){
+        handleVideo();
+      }
+  }, [speechSynthesis.speaking]);
   useEffect(() => {
     handleStartCapture();
     handleTurns();
@@ -114,16 +119,27 @@ const handleVideo =()=>{
   };
 
   const handleSend = async ()=>{
-   let submit = await sendAnswer(text);
-  console.log(submit);
+   let res = await sendAnswer(text);
+ if(res.submit){
+   setQues(res.message);
+  let q = await getQuestion();
+  setQues(q);
+
+ }
   }
   const handleTurns = ()=>{
     
   }
+
+  const handleEnd = async()=>{
+    alert("wait for feedback...");
+  let feedback: any = await getFeedback();
+    setQues(feedback);
+  }
   return (
-    <div className='min-h-screen bg-[#ECF0FB] flex flex-col justify-center items-center gap-12'>
+    <div className='min-h-screen bg-[#ECF0FB] flex flex-col justify-center items-center gap-12 p-10'>
       
-      <div className="flex gap-8">
+      <div className="flex gap-8 max-[425px]:flex-col">
         <video  ref={videoRef} autoPlay playsInline muted width={"350px"}  height={"350px"} className='object-cover'></video>
        {!turn && <ReactPlayer
             className='react-player ease-in-out'
@@ -145,12 +161,14 @@ const handleVideo =()=>{
     <audio ref={audioRef} autoPlay muted></audio>
       <div className="flex">
         <textarea
-          className="w-96 p-3 rounded-lg border-gray-200 border-solid border-2 focus:outline-none overflow-y-scroll max-h-100 resize-none"
+          className="hidden w-96 p-3 rounded-lg border-gray-200 border-solid border-2 focus:outline-none overflow-y-scroll max-h-100 resize-none"
           placeholder='Enter text...'
           value={text || ""}
+
           onChange={(e) => setText(e.target.value)}
         />
         <button className='p-3 rounded-lg border-gray-200 bg-white border-solid border-2 m-3' onClick={() => {handleSend()}}>Send</button>
+        <button disabled={ques !== "questions are completed! click on end interview"}  className='p-3 rounded-lg border-gray-200 bg-white border-solid border-2 m-3' onClick={() => {handleEnd()}}>End Interview</button>
       </div>
     </div>
   );
