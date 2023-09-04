@@ -136,7 +136,7 @@ const handleVideo =()=>{
  if(res.submit){
   //  setQues(res.message);
   let q = await getQuestion();
-  setQues("Great!" + q);
+  setQues("Great! " + q);
 
  }
   }
@@ -181,7 +181,7 @@ const handleVideo =()=>{
           onChange={(e) => setText(e.target.value)}
         />
         <button className='p-3 rounded-lg border-gray-200 bg-white border-solid border-2 m-3' onClick={() => {handleSend()}}>Send</button>
-        <button disabled={ques !== "questions are completed! click on end interview"}  className='p-3 rounded-lg border-gray-200 bg-white border-solid border-2 m-3' onClick={() => {handleEnd()}}>End Interview</button>
+        <button disabled={ques !== "Great! questions are completed! click on end interview"}  className='p-3 rounded-lg border-gray-200 bg-white border-solid border-2 m-3' onClick={() => {handleEnd()}}>End Interview</button>
       </div>
     </div>
   );
