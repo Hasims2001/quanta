@@ -5,8 +5,8 @@ export const startInterview = async (type: string): Promise<string>  =>{
     try {
         const response = await axios.get(`${process.env.REACT_APP_API_LINK}/start_interview/${type}`); 
     return response.data.question;
-  } catch (error) {
-    throw error;
+  } catch (error: any) {
+    return error.message;
   }
 }
 

@@ -1,7 +1,7 @@
 import  { useEffect, useMemo, useRef, useState } from 'react';
 import ReactPlayer from 'react-player';
-import avatarvideo from "../../src/assets/avatarvideo.mp4";
-import avatarhold from '../../src/assets/avatarhold.mp4';
+// import avatarvideo from "../../src/assets/avatarvideo.mp4";
+// import avatarhold from '../../src/assets/avatarhold.mp4';
 
 import { getFeedback, getQuestion, sendAnswer, startInterview } from '../Api';
 export const Room = ({type}: any) => {
@@ -11,6 +11,7 @@ export const Room = ({type}: any) => {
   const [audioStream, setAudioStream] = useState<MediaStream | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const recognition = useRef<SpeechRecognition | null>(null);
   const [ques, setQues] = useState("");
   const handleStartCapture = async () => {
@@ -42,6 +43,13 @@ const handleVideo =()=>{
     if ('speechSynthesis' in window) {
       setTurn(false);
       let utterance = new SpeechSynthesisUtterance(ques);
+      utterance.onstart = () => {
+        setIsSpeaking(true);
+      }
+  
+      utterance.onend = () => {
+        setIsSpeaking(false);
+      }
       speechSynthesis.speak(utterance);
       
       // setTimeout(()=>{
@@ -55,10 +63,15 @@ const handleVideo =()=>{
   }, [ques]);
 
   useEffect(()=>{
-      if(speechSynthesis.speaking === false){
-        handleVideo();
-      }
-  }, [speechSynthesis.speaking]);
+    // if(speechSynthesis.speaking === false){
+    //   handleVideo();
+    // }
+    if(!isSpeaking){
+      handleVideo();
+    }
+
+      
+  }, [isSpeaking]);
   useEffect(() => {
     handleStartCapture();
     handleTurns();
@@ -121,9 +134,9 @@ const handleVideo =()=>{
   const handleSend = async ()=>{
    let res = await sendAnswer(text);
  if(res.submit){
-   setQues(res.message);
+  //  setQues(res.message);
   let q = await getQuestion();
-  setQues(q);
+  setQues("Great!" + q);
 
  }
   }
@@ -143,7 +156,7 @@ const handleVideo =()=>{
         <video  ref={videoRef} autoPlay playsInline muted width={"350px"}  height={"350px"} className='object-cover'></video>
        {!turn && <ReactPlayer
             className='react-player ease-in-out'
-            url= {avatarvideo}
+            url= {"https://res.cloudinary.com/dpspgsvks/video/upload/v1693833939/hackathon/wfyhej4y5nzctkiefkct.mp4"}
             width={"350px"}
             height={"360px"}
             muted={true}
@@ -151,7 +164,7 @@ const handleVideo =()=>{
             />}
             {turn && <ReactPlayer
             className='react-player ease-in'
-            url= {avatarhold}
+            url= {"https://res.cloudinary.com/dpspgsvks/video/upload/v1693833922/hackathon/xy63mufwdifyi5gmyuuu.mp4"}
             width={"350px"} 
             height={"360px"}
             muted={true}

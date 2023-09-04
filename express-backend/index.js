@@ -170,11 +170,11 @@ function getRandomQuestions(arr, numQuestions) {
 }
 const generateQuestions = async(type)=>{
   try {
-    const prompt = `write the ${process.env.TOTAL_QUESTIONS} basic interview theoretical questions for ${type}.`;
+    const prompt = `write 2 basic ${type} interview questions without adding index of question.`;
     let response = await  openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [{ role: "system", content: prompt }],
-      max_tokens: 100,
+      max_tokens: 50,
     })
     return response.choices[0].message.content;
   } catch (error) {
@@ -207,10 +207,14 @@ app.get("/start_interview/:type", async (req, res) => {
     if(que[i] !== "" && que[i] !== " "){
       session.questions.push(que[i]);
     }
+
+    if(session.questions.length === 2){
+      break;
+    }
     
   }
 
-
+ console.log(session.questions);
 
   const currentQuestion = session.questions[0];
   res.json({ question: currentQuestion });
@@ -245,40 +249,18 @@ app.get("/interview_feedback", async(req, res) => {
   const userQuestions = session.questions;
 
 
-  let prompt = `take an role of interviewer. your task is to give feedback to the candidate. below there are question and their answer give appropiate feedback.also give hiring status. Hiring criteria : Options are Reject, Waitlist, Hire and Strong Hire. \n`;
+  let prompt = `take an role of interviewer. below there are question and their answers giving by the candidate. your task is to give feedback to the candidate.also give hiring status. Hiring criteria : Options are Reject, Waitlist, Hire and Strong Hire. \n`;
 
-  for (let i = 0; i < userResponses.length; i++) {
-    prompt += userQuestions[i].question + " : " + userResponses[i] + "\n";
-  }
+  // for (let i = 0; i < userResponses.length; i++) {
+  //   prompt += userResponses[i] + "\n";
+  // }
+  prompt += userResponses[userResponses.length - 1];
 
-  //dynamic feedback from openai
-  // const feedback = getFeedback(prompt);
-  // let feedback = "";
-  //   openai.chat.completions.create({
-  //     model: "gpt-3.5-turbo",
-  //     messages: [{ role: "system", content: prompt }],
-  //     max_tokens: 30,
-  //   }).then(chatCompletion =>{
-  //     feedback = chatCompletion.choices[0].message.content;
-  //     console.log(feedback);
-  //     if(feedback){
-  //       session.destroy((err) => {
-  //         if (err) {
-  //           res.json({ error: err, session_destroy: false });
-  //         } else {
-  //           res.json({ feedback: feedback, session_destroy: true });
-  //         }
-  //       });
-  //     }
-  //   }).catch((error)=>{
-  //     res.json({ error: error, session_destroy: false });
-  //   })
-   
   try {
     let response = await  openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [{ role: "system", content: prompt }],
-      max_tokens: 50,
+      max_tokens: 100,
     })
     session.userResponses = [];
     session.questions = [];

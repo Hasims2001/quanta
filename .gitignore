@@ -2,3 +2,5 @@
 
 express-backend/.env
 express-backend/node_modules
+# Local Netlify folder
+.netlify
