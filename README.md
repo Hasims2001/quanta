@@ -61,7 +61,7 @@ To set up the project locally, follow these steps:
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/Hasims2001/synonymous-nose-6503.git
+git clone https://github.com/Hasims2001/quanta.git
 ```
 
 ```bash
