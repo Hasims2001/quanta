@@ -65,7 +65,7 @@ git clone https://github.com/Hasims2001/synonymous-nose-6503.git
 ```
 
 ```bash
-cd warlike-current-5989/Frontend
+cd frontend
 ```
 
 run command in terminal
@@ -82,7 +82,9 @@ npm start
 ## Project Team
 
 - [Mohammad Hasim Shaikh](https://github.com/Hasims2001)
-- [Devesh Suryanwanshi](https://github.com/DeveshSuryawanshi)
-- [Shivansh Soni](https://github.com/official-Shivansh)
+- [Shatrughan Kumar](https://github.com/shatrukumar47)
+- [Rupesh Kumar Sinha](https://github.com/Rupesh0913)
+- [Harsh Rai](https://github.com/RHarsh0)
+- [Amit Roy](https://github.com/Amit0841)
 
 Feel free to explore the project using the provided links and discover the generative ai based interview sessions!
