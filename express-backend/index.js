@@ -200,6 +200,8 @@ app.get("/start_interview/:type", async (req, res) => {
   // }else{
   //   session.questions = getRandomQuestions(generalQuestions, 3);
   // }
+  session.userResponses = [];
+  session.questions = [];
 
   let que  = await generateQuestions(type);
   que = que.split("\n");
@@ -214,7 +216,7 @@ app.get("/start_interview/:type", async (req, res) => {
     
   }
 
- console.log(session.questions);
+
 
   const currentQuestion = session.questions[0];
   res.json({ question: currentQuestion });
