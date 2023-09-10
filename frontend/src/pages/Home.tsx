@@ -6,7 +6,7 @@ export const Home = () => {
 
   //handleTryFreeBTN
   const handleTryFree = ()=>{
-    navigate("/category")
+    navigate("/menu")
   }
 
   return (

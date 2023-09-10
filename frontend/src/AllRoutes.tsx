@@ -9,10 +9,9 @@ export const AllRoutes = () => {
     <Routes>
     <Route path="/" element={<Home />}></Route>
     <Route path="/menu" element={<Menu />}></Route>
-    <Route path="/category" element={<Category />}></Route>
-    <Route path="/room/coding" element={<Room type={"coding"} />}></Route>
-    <Route path="/room/dsa" element={<Room type={"dsa"} />}></Route>
-    <Route path="/room/general" element={<Room type={"general"} />}></Route>
+    <Route path="/menu/room/coding" element={<Room type={"coding"} />}></Route>
+    <Route path="/menu/room/dsa" element={<Room type={"dsa"} />}></Route>
+    <Route path="/menu/room/general" element={<Room type={"general"} />}></Route>
 </Routes>
   )
 }
