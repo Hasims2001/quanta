@@ -1,10 +1,11 @@
-import { FileEdit } from "lucide-react";
+import { FileEdit, PenSquare } from "lucide-react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const Menu = () => {
   const navigate = useNavigate();
   const [stack, setStack] = useState("");
+  const [data, setData] = useState({ title: "", language: "", content: ""})
   const cards = [
     {
       code: "001",
@@ -42,10 +43,23 @@ export const Menu = () => {
       inputEle?.classList.add("hidden");
     }
   };
-
+  const handleChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
+    setData({
+      ...data,
+      [e.target.name] : e.target.value
+    })
+  }
+  const handleCustom = (roomId: string)=>{
+    if(!data.title || !data.language || !data.content){
+      alert('all the inputs are required!');
+    }else{
+      navigate(`/menu/room/${roomId}`);
+    }
+  }
   const handleRoom = (roomId: string) => {
     navigate(`/menu/room/${roomId}`);
   };
+  console.log("rendr")
   return (
     <div className="min-h-screen bg-[#edf0f9] p-8">
       <div className="flex gap-8 justify-center">
@@ -54,12 +68,24 @@ export const Menu = () => {
             return (
               <div
                 key={index}
-                className="p-8 max-w-sm text-white bg-[#0D2740] rounded-xl text-center shadow-red-950"
+                className="p-8 max-w-sm  bg-[#0D2740] rounded-xl text-center shadow-red-950"
               >
-                <p className="text-3xl">{card.title}</p>
+                <input type="text" name="title" onChange={handleChange} placeholder="Title..." className="text-xl rounded outline-none p-1"></input>
+                <br></br>
                 <br></br>
                 <hr></hr>
                 <br></br>
+                <p className="text-white text-xl mb-4">Tech Stack (sepreate With '|') </p>
+                <input type="text" name="language" onChange={handleChange} placeholder="i.e  React.js | JavaScript..." className=" rounded outline-none p-1 mb-4"></input>
+                <p className="text-white text-xl mb-4">Topics  </p>
+                <input type="text" onChange={handleChange} placeholder="i.e Custom hooks, Virtual DOM...." 
+                name="content" className=" rounded outline-none p-1 mb-4"></input>
+                <button
+                  onClick={() => handleCustom(`${card.title?.split(" ")[0]}`)}
+                  className=" bg-blue-400 p-2 bottom-0 text-white rounded-lg"
+                >
+                  Start the interview
+                </button>
               </div>
             );
           } else {
@@ -83,7 +109,7 @@ export const Menu = () => {
                 <p className="text-lg my-4">Topics: {card.content}</p>
                 <button
                   onClick={() => handleRoom(`${card.title?.split(" ")[0]}`)}
-                  className=" bg-blue-400 p-2 rounded-lg"
+                  className=" bg-blue-400 p-2 bottom-0 rounded-lg"
                 >
                   Start the interview
                 </button>
