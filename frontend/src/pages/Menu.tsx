@@ -1,10 +1,13 @@
 import { FileEdit, PenSquare } from "lucide-react";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { RoomContext } from "../Context/RoomData";
 
 export const Menu = () => {
   const navigate = useNavigate();
   const [stack, setStack] = useState("");
+  const obj = useContext(RoomContext);
+  console.log(obj);
   const [data, setData] = useState({ title: "", language: "", content: ""})
   const cards = [
     {
@@ -53,6 +56,8 @@ export const Menu = () => {
     if(!data.title || !data.language || !data.content){
       alert('all the inputs are required!');
     }else{
+
+
       navigate(`/menu/room/${roomId}`);
     }
   }
@@ -70,18 +75,18 @@ export const Menu = () => {
                 key={index}
                 className="p-8 max-w-sm  bg-[#0D2740] rounded-xl text-center shadow-red-950"
               >
-                <input type="text" name="title" onChange={handleChange} placeholder="Title..." className="text-xl rounded outline-none p-1"></input>
+                <input type="text" name="title" value={data.title} onChange={handleChange} placeholder="Title..." className="text-xl rounded outline-none p-1"></input>
                 <br></br>
                 <br></br>
                 <hr></hr>
                 <br></br>
                 <p className="text-white text-xl mb-4">Tech Stack (sepreate With '|') </p>
-                <input type="text" name="language" onChange={handleChange} placeholder="i.e  React.js | JavaScript..." className=" rounded outline-none p-1 mb-4"></input>
+                <input type="text"  value={data.language} name="language" onChange={handleChange} placeholder="i.e  React.js | JavaScript..." className=" rounded outline-none p-1 mb-4"></input>
                 <p className="text-white text-xl mb-4">Topics  </p>
-                <input type="text" onChange={handleChange} placeholder="i.e Custom hooks, Virtual DOM...." 
+                <input type="text" value={data.content} onChange={handleChange} placeholder="i.e Custom hooks, Virtual DOM...." 
                 name="content" className=" rounded outline-none p-1 mb-4"></input>
                 <button
-                  onClick={() => handleCustom(`${card.title?.split(" ")[0]}`)}
+                  onClick={() => handleCustom(`${data.title?.split(" ")[0]}`)}
                   className=" bg-blue-400 p-2 bottom-0 text-white rounded-lg"
                 >
                   Start the interview
